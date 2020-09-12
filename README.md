@@ -1,22 +1,19 @@
-Kurtosis Docs
-=============
-The docs for the Kurtosis testing framework
-
 What's Kurtosis?
-----------------
+================
 Kurtosis is a framework for writing tests for any networked system - be it a blockchain, a distributed datastore, or a microservice architecture. It handles all the gruntwork of setup, test execution, and teardown so you don't have to. These tests could be as simple as, "create a single Elasticsearch node and make a request against it", or as complex as "spin up a network containing a database, a Kafka queue, and your custom services and run end-to-end tests on it". Each test declares the network it wants and the test logic to run, and Kurtosis handles launching the network and executing the test. The nodes of the network are Docker containers, so anything you have a Docker image for can be used in Kurtosis!
 
 Prerequisites
--------------
+=============
 * [Docker engine installed](https://docs.docker.com/get-started/)
 
 How does it work?
------------------
+=================
 You'll implement a few interfaces in the language of your choice to create a test suite, package your suite into a Docker image, and run [the Kurtosis initializer Docker image](https://hub.docker.com/repository/docker/kurtosistech/kurtosis-core_initializer) with the name of your image like so. Kurtosis will load your test suite, coordinate the execution of the tests, and feed you back the results - it's that easy!
 
 How do I create a test suite?
------------------------------
-### Overview
+=============================
+Overview
+--------
 At a high level, you'll need to give Kurtosis details about:
 
 * The types of services your tests will use - what params to use when running the Docker container, how to verify the service is available, etc.
@@ -30,7 +27,8 @@ This is done by implementing the interfaces in the "Kurtosis client" library in 
 
 The output of a build on your test suite repo will be a Docker image containing your test suite image, which you'll use to run your test suite on Kurtosis.
 
-### Details
+Details
+-------
 At a lower level, the Kurtosis client interfaces you'll need to implement are:
 
 * `Service` to define the programmatic interface for the service(s) in your network so your test can use them
@@ -60,8 +58,9 @@ By this point, you should have:
 * A Dockerfile that builds an image which receives the special Kurtosis environment variables and passes them as arguments to your CLI
 
 How do I run my test suite?
----------------------------
-### Overview
+===========================
+Overview
+--------
 The code contained in the Kurtosis initializer Docker image serves as the "CLI" for running Kurtosis. You'll run the initializer with your test suite like so:
 
 ```bash
@@ -97,7 +96,8 @@ docker run \
     kurtosistech/kurtosis-core_initializer:${KURTOSIS_RELEASE_CHANNEL}
 ```
 
-### Details
+Details
+-------
 In the example above we set the magic `TEST_SUITE_IMAGE`, `SUITE_EXECUTION_VOLUME`, and `KURTOSIS_API_IMAGE` "parameters" to the Kurtosis "CLI" in the form of Docker environment variables. The full list of Docker environment variable "parameters" are as follows:
 
 | Parameter     | Required/Optional | Description |
