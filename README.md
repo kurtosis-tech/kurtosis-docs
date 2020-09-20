@@ -1,6 +1,6 @@
 What's Kurtosis?
 ================
-Kurtosis is a framework for writing tests for any networked system - be it a blockchain, a distributed datastore, or a microservice architecture. It handles all the gruntwork of setup, test execution, and teardown so you don't have to. These tests could be as simple as, "create a single Elasticsearch node and make a request against it", or as complex as "spin up a network containing a database, a Kafka queue, and your custom services and run end-to-end tests on it". Each test declares the network it wants and the test logic to run, and Kurtosis handles launching the network and executing the test. The nodes of the network are Docker containers, so anything you have a Docker image for can be used in Kurtosis!
+Kurtosis is a framework for writing tests for any networked system, automating the gruntwork of network setup, test execution, and teardown so you don't have to. These tests could be as simple as, "create a single Elasticsearch node and make a request against it", or as complex as "spin up a network containing a database, a Kafka queue, and your custom services and run end-to-end tests on it". Each test declares a network to run against and the test logic to run, and Kurtosis handles launching the network and executing the test. The nodes of the network are Docker containers, so anything you have a Docker image for can be used in Kurtosis!
 
 Prerequisites
 =============
