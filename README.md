@@ -79,10 +79,18 @@ TEST_SUITE_IMAGE="my-image-name"
 VOLUME_NAME="my-test-suite_$(date +%s)"
 docker volume create "${VOLUME_NAME}"
 
+# The directory where Kurtosis will store files it uses in between executions, e.g. access tokens
+KURTOSIS_DIRPATH="${HOME}/.kurtosis"
+mkdir -p "${KURTOSIS_DIRPATH}"
+
 docker run \
     `# The Kurtosis initializer runs inside a Docker container, but needs to access to the Docker engine; this is how to do it` \
     `# For more info, see the bottom of: http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/` \
     --mount "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock" \
+
+    `# Because the Kurtosis initializer runs inside Docker but needs to persist & read files on the host filesystem between execution,`
+    `#  the container expects the Kurtosis directory to be bind-mounted at the special "/kurtosis" path`
+    --mount "type=bind,source=${HOME}/.kurtosis,target=/kurtosis" \
 
     `# The Kurtosis initializer image requires the volume to be mounted at the special "/suite-execution" path` \
     --mount "type=volume,source=${VOLUME_NAME},target=/suite-execution" \
