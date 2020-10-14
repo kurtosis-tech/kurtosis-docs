@@ -110,10 +110,12 @@ docker run \
 
 Details
 -------
-In the example above we set the magic `TEST_SUITE_IMAGE`, `SUITE_EXECUTION_VOLUME`, and `KURTOSIS_API_IMAGE` "parameters" to the Kurtosis "CLI" in the form of Docker environment variables. The full list of Docker environment variable "parameters" are as follows:
+Because Kurtosis runs entirely in Docker, we use the `--env` flag to the `docker run` command to set the `TEST_SUITE_IMAGE`, `SUITE_EXECUTION_VOLUME`, and `KURTOSIS_API_IMAGE` "parameters" to control Kurtosis behaviour. The full list of Docker environment variable "parameters" that can be set (in the form `--env NAME=value`) is as follows:
 
 | Parameter     | Required/Optional | Description |
 | ------------- | ----------------- | ----------- |
+| `CLIENT_ID` | Optional | An Oauth client ID, which should be provided only when running the testsuite on a CI machine |
+| `CLIENT_SECRET` | Optional | An Oauth client secret, which should be provided only when running the testsuite on a CI machine |
 | `CUSTOM_ENV_VARS` | Optional | A key-value mapping in JSON object form of additional Docker environment variables that should be set when running your test suite image. For example, if your test suite Dockerfile wants an extra `SOME_CUSTOM_ENV_VAR` variable that it then passes to your CLI, you'd add a `--env 'CUSTOM_ENV_VARS={"SOME_CUSTOM_ENV_VAR": "some value"}'` flag when calling the Kurtosis initializer. |
 | `DO_LIST` | Optional; default `false` | A boolean variable indicating if Kurtosis should list the names of the tests in the test suite rather than executing any tests. |
 | `KURTOSIS_API_IMAGE` | Required | A Docker image from [the Kurtosis API image repo](https://hub.docker.com/repository/docker/kurtosistech/kurtosis-core_api) that the initializer should use during operation. The tag of the API image should match the tag of the initializer image. |
