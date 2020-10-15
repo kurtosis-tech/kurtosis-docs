@@ -1,10 +1,15 @@
 What's Kurtosis?
 ================
-Kurtosis is a framework for writing tests for any networked system, automating the gruntwork of network setup, test execution, and teardown so you don't have to. These tests could be as simple as, "create a single Elasticsearch node and make a request against it", or as complex as "spin up a network containing a database, a Kafka queue, and your custom services and run end-to-end tests on it". Each test declares a network to run against and the test logic to run, and Kurtosis handles launching the network and executing the test. The nodes of the network are Docker containers, so anything you have a Docker image for can be used in Kurtosis!
+Kurtosis is a platform for running whole-system tests against distributed systems with the frequency and repeatability of unit tests. As the world moves to microservice architectures and systems become more complex, bugs increasingly present as emergent phenomenon between components. The more components a system has, the higher the likelihood of extreme and unexpected events. 
 
-Prerequisites
-=============
-* [Docker engine installed](https://docs.docker.com/get-started/)
+Unfortunately, more components means more work to launch a representative test network, and a higher likelihood that engineers will cut corners on testing. Kurtosis makes the setup and teardown of test networks trivial, so that whole-system tests can be run in CI as painlessly as unit tests.
+
+Diving In
+=========
+From here, you have two paths:
+
+* For those who like to jump and see things running, head over to [the quickstart instructions](./quickstart.md)
+* For those who prefer to start at a high level, check out [the Kurtosis architecture docs](./architecture.md)
 
 How does it work?
 =================
@@ -132,9 +137,6 @@ See [the "Debugging Failed Tests" tutorial](./debugging-failed-tests.md) for inf
 
 Developer Notes
 ===============
-### Docker-in-Docker & MacOS Users
-**High-level:** If you're using MacOS, make sure that your Docker engine's `Resources > File Sharing` preferences are set to allow `/var/folders`
-**Details:** The Kurtosis controller is a Docker image that needs to access the Docker engine it's running in to create other Docker images. This is done via creating "sibling" containers, as detailed in the "Solution" section at the bottom of [this blog post](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/). However, this requires your Docker engine's communication socket to be bind-mounted inside the controller container. Kurtosis will do this for you, but you'll need to give Docker permission for the Docker socket (which lives at `/var/run/docker.sock`) to be bind-mounted inside the controller container.
 
 ### Abnormal Exit
 While running, Kurtosis will create several Docker containers and networks during test execution. In most situations, Kurtosis will stop these containers and delete the networks on exit (including Ctrl-C). **In some rare situations when Kurtosis is killed abnormally (e.g. SIGKILL aka `kill -9`), you'll need to remove the Docker network and stop the running containers!** This can be done like so:
