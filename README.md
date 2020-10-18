@@ -2,11 +2,11 @@ Kurtosis
 ========
 Kurtosis is a platform for running whole-system tests against distributed systems with the frequency and repeatability of unit tests.
 
-The world is moving to microservices and systems are becoming increasingly complex. The more components a system has, the more [emergent phenomena](https://en.wikipedia.org/wiki/Emergence) and [unexpected outlier events](https://en.wikipedia.org/wiki/Black_swan_theory) that occur. More components equal more difficulty running a representative system, and more corners cut when testing. If nothing is done, testing will continue to decline and unpredictability will continue to rise. Engineers need new tools to tame the complexity of the distributed age, that marry the ease and safety of unit tests with the representativeness of testing in production. Kurtosis is one such tool.
+The world is moving to microservices and systems are becoming increasingly complex. The more components a system has, the more [emergent phenomena](https://en.wikipedia.org/wiki/Emergence) and [unexpected outlier events](https://en.wikipedia.org/wiki/Black_swan_theory) that occur. More components equal more difficulty running a representative system, and more corners cut when testing. If nothing is done, testing will continue to decline and unpredictability will continue to rise. Engineers need a new tool to tame the complexity of the distributed age, that marries the ease and safety of unit tests with the representativeness of testing in production. Kurtosis is that tool.
 
 Diving In
 ---------
-From here, you have two paths:
+You have two paths you can start with:
 
 * For those who like to jump in and see things running, head over to [the quickstart instructions](./quickstart.md)
 * For those who prefer to start at a high level, check out [the Kurtosis architecture docs](./architecture.md)
