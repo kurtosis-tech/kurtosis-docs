@@ -9,7 +9,7 @@ Every testsuite is simply a Docker image that runs a CLI that executes a test. T
 We recommend you follow along in code as you read this document. Each client library contains an example implementation of the components as well as the ability to bootstrap a new testsuite from the example implementation. The rest of the guide will assume you've bootstrapped a new testsuite, so if you haven't done so already we recommend following the [the quickstart instructions](./quickstart.md) to bootstrap now.
 
 **NOTES:**
-* Kurtosis provides clients for writing testsuites in multiple languages. While the languages differ, the objects and function calls are named the same. For consistency, this guide will avoid language-specific idioms and will use pseudocode with a generic notation `Object.function` notation.
+* Kurtosis provides clients for writing testsuites in multiple languages. While the languages differ, the objects and function calls are named the same. For consistency, this guide will avoid language-specific idioms and will use pseudocode with a generic `Object.function` notation.
 * Each Kurtosis client provides comments on all objects and functions, so this guide will focus on the higher-level interaction between the components rather than specific documentation of each function and argument. For detailed docs, see the in-code comments in your client of choice.
 
 Components
@@ -23,9 +23,9 @@ Your Kurtosis testsuite CLI in your repo will be a `main` function that does the
 4. **Test Execution:** Calling `Client.run` with the Kurtosis arguments and `TestSuite` object.
 
 ### Dockerfile
-To package the CLI into a Docker image, your repo will have a Dockerfile that defines how to build the image. (If Dockerfiles are alien to you, we recommend [the official Docker docs](https://docs.docker.com/get-started/) as a great place to start.) Kurtosis testsuite Dockerfiles are very simple, and simply compile and run the CLI. 
+To package the CLI into a Docker image, your repo will have a Dockerfile under the example implementation folder that defines how to build the image (and if Dockerfiles are alien to you, we recommend [the official Docker docs](https://docs.docker.com/get-started/) as a great place to start). Kurtosis testsuite Dockerfiles are very simple, and simply compile and run the CLI. 
 
-The only bit of complexity is that the Kurtosis-specific parameters will be passed in as environment variables, which will then be passed to your testsuite CLI in the form of flag args:
+The only bit of complexity is that the Dockerfile will receive Kurtosis-specific parameters as magic environment variables, which will then be passed to your testsuite CLI in the form of flag args. These environment variables are as follows:
 
 * `KURTOSIS_API_IP`
 * `LOG_LEVEL`
@@ -33,16 +33,16 @@ The only bit of complexity is that the Kurtosis-specific parameters will be pass
 * `SERVICES_RELATIVE_DIRPATH`
 * `TEST`
 
-With the exception of the log level, all of these should be passed as-is to the `Client.run` call. If you modify the Dockerfile, you will need to make sure that you continue to receive these variables and pass them as-is to your CLI.
+With the exception of the log level, all of these will be passed as-is to the `Client.run` call. If you modify the Dockerfile, you will need to make sure that you continue to receive these variables as flags in your CLI main function.
 
 ### TestSuite
 Every Kurtosis client's `Client.Run` function requires a `TestSuite` object that contains details about:
 
 * Your services - what Docker images to use, what params to give when running the container, how to verify the service is available, etc.
-* Your networks - their topology and what types and quantities of services they're composed of
-* Your tests - their names and logic, what networks they want, their timeouts, etc.
+* Your testnets - their topology and what types and quantities of services they're composed of
+* Your tests - their names and logic, what testnets they want, their timeouts, etc.
 
-All this information is packaged inside the `Test` object, so a `TestSuite` is really a wrapper class for a set of `Test`s.
+All this information is packaged inside the `Test` object, so a `TestSuite` is really a wrapper class for a set of named `Test`s.
 
 ### Test
 A `Test` object packages the logic for executing an individual test with a definition of the network the test will execute against. It has three main components:
@@ -84,12 +84,12 @@ As the script's help text mentions, the testsuite execution can be modified by u
 | ------------- | ----------------- | ----------- |
 | `CLIENT_ID` | Optional | An Oauth client ID, which should be provided only when running the testsuite on a CI machine |
 | `CLIENT_SECRET` | Optional | An Oauth client secret, which should be provided only when running the testsuite on a CI machine |
-| `CUSTOM_ENV_VARS` | Optional | A key-value mapping in JSON object form of additional Docker environment variables that should be given when running your testsuite container. For example, if your test suite Dockerfile wants an extra `SOME_CUSTOM_ENV_VAR` variable that it then passes to your CLI's main function, you'd add a `--env 'CUSTOM_ENV_VARS={"SOME_CUSTOM_ENV_VAR":\ "some value"}'` flag when calling the Kurtosis initializer. |
+| `CUSTOM_ENV_VARS` | Optional | A key-value mapping in JSON object form of additional Docker environment variables that should be passed through from the initializer to your testsuite container. For example, if your test suite's Dockerfile expects a `SOME_CUSTOM_ENV_VAR` variable that it then passes to your CLI's main function, you'd add call `build_and_run.sh` with an extra `--env 'CUSTOM_ENV_VARS={"SOME_CUSTOM_ENV_VAR":\ "some value"}'` flag. |
 | `DO_LIST` | Optional; default `false` | A boolean variable indicating if Kurtosis should list the names of the tests in the test suite rather than executing any tests. |
-| `KURTOSIS_API_IMAGE` | Required | A Docker image from [the Kurtosis API image repo](https://hub.docker.com/repository/docker/kurtosistech/kurtosis-core_api) that the initializer should use during operation. The tag of the API image should match the tag of the initializer image. |
+| `KURTOSIS_API_IMAGE` | Required | A Docker image from [the Kurtosis API image repo](https://hub.docker.com/repository/docker/kurtosistech/kurtosis-core_api) that the initializer should use during operation. The tag of the API image should match the tag of the initializer image being run. |
 | `KURTOSIS_LOG_LEVEL` | Optional; default `debug` | The log level that all output generated by the Kurtosis framework itself should log at. Acceptable values are `trace`, `debug`, `info`, `warn`, `error`, and `fatal`. |
 | `PARALLELISM` | Optional; default `2` | A positive integer variable telling Kurtosis how many tests it should run in parallel. **This should be set no higher than the number of cores on your machine, else you'll slow down your tests and potentially hit test timeouts!** |
-| `SUITE_EXECUTION_VOLUME` | Required | The name of the Docker volume in which this execution of Kurtosis should store its data. **Use a new volume every time!** |
+| `SUITE_EXECUTION_VOLUME` | Required | The name of the Docker volume in which this execution of Kurtosis should store its data. The `build_and_run.sh` script will handle creating a new volume on every execution, but if you're running the initializer manually you should take care to use a new Docker volume on every execution! |
 | `TEST_NAMES` | Optional | A comma-separated list of specific test names to run. If this option is not specified, all tests in the test suite are run. |
 | `TEST_SUITE_IMAGE` | Required | The name of the Docker image containing your test suite. |
 | `TEST_SUITE_LOG_LEVEL` | Optional; default `debug` | A string that will be passed as-is to the test suite container to indicate what log level the test suite container should output at. Kurtosis won't know what logging framework the test suite container uses, so this string should be meaningful to the test suite image. |
@@ -98,14 +98,14 @@ As the script's help text mentions, the testsuite execution can be modified by u
 
 Customizing Testsuite Execution
 -------------------------------
-You'll very likely want to customize the behaviour of your testsuite based on information passed in when you execute Kurtosis (e.g. have a `--fast-tests-only` flag to your CLI's main function that run a subset of the tests in your suite). To do so, you'll need to:
+You'll very likely want to customize the behaviour of your testsuite based on information passed in when you execute Kurtosis (e.g. have a `--fast-tests-only` flag to your CLI's main function that runs a subset of the tests in your suite). To do so, you'll need to:
 
 1. Add the appropriate flags to your CLI's main function
-1. Edit the `Dockerfile` that wraps your testsuite CLI to set the flag with a value from a Docker environment variable (e.g. `--fast-tests-only=${FAST_TESTS_ONLY}`)
-1. When running Kurtosis via the initializer, use the `--env` Docker flag to set the value of the initializer's `CUSTOM_ENV_VARS_JSON` parameter-variable to a JSON map containing your desired values (e.g. `{\"FAST_TESTS_ONLY\":true}`)
+1. Edit the `Dockerfile` that wraps your testsuite CLI to set the flag using a Docker environment variable (e.g. `--fast-tests-only=${FAST_TESTS_ONLY}`)
+1. When running Kurtosis, use the `--env` Docker flag to set the value of the initializer's `CUSTOM_ENV_VARS_JSON` parameter-variable to a JSON map containing your desired values (e.g. `build_and_run.sh all --env CUSTOM_ENV_VARS_JSON="{\"FAST_TESTS_ONLY\":true}"`)
 
 **WARNING:** Docker doesn't like unescaped spaces when using the `--env` flag. You'll therefore want to backslash-escape BOTH spaces and double-quotes, like so: `--env CUSTOM_ENV_VARS_JSON="{\"VAR1\":\ \"var1-value\",\ \"VAR2\":\ \"var2-value\"}"`.
 
 Next Steps
 ----------
-Now that you understand more about the internals of a testsuite, you can head over to [the quickstart instructions](./quickstart.md) to bootstrap your own testsuite (if you haven't already) or visit [the architecture docs](./kurtosis-architecture.md) to learn more about the Kurtosis platform at a high level.
+Now that you understand more about the internals of a testsuite, you can head over to [the quickstart instructions](./quickstart.md) to bootstrap your own testsuite (if you haven't already) or visit [the architecture docs](./architecture.md) to learn more about the Kurtosis platform at a high level.
