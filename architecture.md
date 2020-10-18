@@ -20,11 +20,11 @@ Engineers have well-established unit-testing tools for each phase, so developers
 
 When the component being tested is the entire distributed system however, things become seriously difficult: where do we run the test nodes? How do we initialize their config & data files? Where do we run the test logic, and how does it talk to the system? How do we ensure the network is cleaned up after the test is done?
 
-These are challenging questions, and in our experience teams tend to go one of two ways: write their own automation framework from scratch, or skip sandboxed networks altogether and run a single long-lived testnet that everyone uses. The latter is error-prone and costly to maintain while the former is bespoke and costly to write. Ideally, teams would have a platform that automates the heavy lifting of eaach phase so they can focus on writing tests. This is Kurtosis.
+These are challenging questions, and in our experience teams tend to go one of two ways: write their own automation framework from scratch, or skip sandboxed networks altogether and run a single long-lived testnet that everyone uses. The latter is error-prone and costly to maintain while the former is bespoke and costly to write. Ideally, teams would have a platform that automates the heavy lifting of each phase so they can focus on writing tests. This is Kurtosis.
 
 Architecture
 ------------
-To see how Kurtosis resolves the distributed system testing challenges, here's a diagram of a Kurtosis testsuite for Microservice X that contains two tests:
+To see how Kurtosis resolves the distributed system testing challenges, here's an example diagram of a Kurtosis testsuite for Microservice X that contains two tests:
 
 ![](./images/kurtosis-architecture.png)
 
@@ -54,7 +54,7 @@ The test phases proceed in the following order:
 
 Key features:
 
-* Testnet services run in Docker containers, so any Dockerized service can be used in a testnet (e.g. Test 1 in the diagram above uses an Oracle database alongside Microservice A)
+* Testnet services run in Docker containers, so any Dockerized service can be used in a testnet (e.g. Test 1 in the diagram above uses an Oracle database alongside Microservice X)
 * Each test receives its own independent testnet running in an isolated Docker subnet, so tests are consistently repeatable and don't interfere with each other
 * Testsuites run as Docker containers, so developers can write tests in any language they please
 * The Kurtosis client library and API container automate the gruntwork of network setup, manipulation, and teardown so tests are easy to write
