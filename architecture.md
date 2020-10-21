@@ -61,4 +61,8 @@ Key features:
 
 Next Steps
 ----------
-To get started writing your own Kurtosis test suite, visit [the quickstart instructions](./quickstart.md). To learn more about what's inside a testsuite, head over to the [the testsuite deep dive](./testsuite-details.md).
+From here, you can:
+
+* Visit [the quickstart instructions](./quickstart.md) to get started writing your own Kurtosis test suite
+* Head over to the [the testsuite deep dive](./testsuite-details.md) to learn more about what's in a testsuite and how to customize it
+* Check out [the CI documentation](./running-in-ci.md) to see how Kurtosis runs inside of CI

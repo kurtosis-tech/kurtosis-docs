@@ -17,11 +17,11 @@ If this still doesn't resolve the issue, you'll want to investigate the logs of 
 
 Overlapping IP address ranges
 -----------------------------
-When Docker errors saying that subnet IP address ranges conflict, this usually means that Kurtosis is trying to create the per-test subnets but is colliding with an existing network that was left over from a previous invocation of the test suite. Kurtosis will clean up the Docker networks it creates under normal circumstances, but abnormal exits (e.g. SIGKILL) will leave the Docker networks hanging around. To fix this error, remove the offending networks like so:
+When Docker errors saying that subnet IP address ranges conflict, this usually means that Kurtosis is trying to create the per-test subnets but is colliding with an existing network that was left over from a previous invocation of the test suite. Kurtosis will clean up the Docker networks it creates under normal circumstances, but abnormal exits (e.g. SIGKILL aka `kill -9`) will leave the Docker networks hanging around. To fix this error, remove the offending networks like so:
 
 ```
 docker network ls
-docker network rm <ID of offending network>
+docker network rm some_id_1 some_id_2 ...
 ```
 
 Timeout while waiting for a service to start
