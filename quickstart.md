@@ -33,4 +33,8 @@ INFO[2020-10-15T18:43:27Z] - fixedSizeExampleTest: PASSED
 If you don't see success messages, check out [the guide for debugging failed tests](./debugging-failed-tests.md) which contains solutions to common issues.
 
 ### Next steps
-Now that you have a running testsuite, you can either visit [the Kurtosis testsuite docs](./testsuite-details.md) to learn more about what's in a testsuite and how to customize it to your needs, or take a step back and visit [the Kurtosis architecture docs](./architecture.md) to get the big picture. Happy testing!
+Now that you have a running testsuite, you can:
+
+* Visit [the Kurtosis testsuite docs](./testsuite-details.md) to learn more about what's in a testsuite and how to customize it to your needs
+* Check out [the CI documentation](./running-in-ci.md) to learn how to run Kurtosis in your CI environment
+* Take a step back and visit [the Kurtosis architecture docs](./architecture.md) to get the big picture

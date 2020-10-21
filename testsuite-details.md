@@ -74,11 +74,11 @@ To avoid spurious failures, Kurtosis won't start running a test unless its targe
 
 Running A Testsuite
 -------------------
-As detailed in [the architecture docs](./architecture.md), testsuite containers are launched, one per test, by the Kurtosis initializer container. The initializer itself is a sort of "CLI", and the entrypoint into running the Kurtosis platform; however, launching it is nontrivial as it requires several special flags to its `docker run` command. Further, because the initializer is a CLI, it needs to receive its own flags!
+As detailed in [the architecture docs](./architecture.md), testsuite containers are launched, one per test, by the Kurtosis initializer container. The initializer container itself is a sort of "CLI", and the entrypoint into running the Kurtosis platform; however, launching it is nontrivial as it requires several special flags to its `docker run` command. Further, because the initializer is a CLI, it receives its own flags (separate from `docker run`'s flags) to customize its behavior!
 
 This can become very confusing very quickly, so every bootstrapped repo comes with a `build_and_run.sh` script in the `scripts` directory to make building and running your testsuite simple. Run `build_and_run.sh help` inside your bootstrapped repo to display detailed information about how to use this script.
 
-As the script's help text mentions, the testsuite execution can be modified by using the Docker `--env` flag to set certain Kurtosis environment variables. `build_and_run.sh` already sets the required variables by default, but the full list of environment variable "parameters" that can be passed to `build_and_run.sh` are listed below for completeness. Any variable you manually set will override the `build_and_run.sh` defaults.
+As the script's help text mentions, the execution of the testsuite can be modified by adding additional Docker `--env` flags to set certain Kurtosis environment variables. `build_and_run.sh` already sets the required parameters by default, but the full list of Docker environment variable "parameters" that can be passed to `build_and_run.sh` are listed below for completeness. Any variable you manually set will override the `build_and_run.sh` defaults.
 
 | Parameter     | Required/Optional | Description |
 | ------------- | ----------------- | ----------- |
@@ -108,4 +108,8 @@ You'll very likely want to customize the behaviour of your testsuite based on in
 
 Next Steps
 ----------
-Now that you understand more about the internals of a testsuite, you can head over to [the quickstart instructions](./quickstart.md) to bootstrap your own testsuite (if you haven't already) or visit [the architecture docs](./architecture.md) to learn more about the Kurtosis platform at a high level.
+Now that you understand more about the internals of a testsuite, you can:
+
+* Head over to [the quickstart instructions](./quickstart.md) to bootstrap your own testsuite (if you haven't already)
+* Visit [the architecture docs](./architecture.md) to learn more about the Kurtosis platform at a high level.
+* Check out [the instructions for running in CI](./running-in-ci.md) to see what's necessary to get Kurtosis running in your CI environment
