@@ -17,6 +17,7 @@ jobs:
       - run: "! git --no-pager diff --exit-code origin/develop...HEAD CHANGELOG.md"
 
 workflows:
+  build:
     jobs:
       # If we start using too many CircleCI credits, we can exclude develop and master from validation
       - validate
