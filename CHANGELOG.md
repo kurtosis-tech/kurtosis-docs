@@ -1,5 +1,6 @@
 (in order of most recent to least recent)
 
+* Added changelog check to CircleCI
 * Added instructions for running in CI
 * Refactored entire onboarding flow to make it much, much simpler to quickstart!
 * Added docs on the `CLIENT_ID` and `CLIENT_SECRET` Docker environment variables that can be passed to Kurtosis
