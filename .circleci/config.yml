@@ -2,6 +2,10 @@ version: 2.1
 
 jobs:
   validate:
+    docker:
+      # The lightest-weight image Circle has
+      - image: cimg/base:2020.01
+    resource_class: small
     steps:
       - checkout
 
