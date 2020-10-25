@@ -2,8 +2,6 @@ version: 2.1
 
 jobs:
   validate:
-    environment:
-      BASE_BRANCH: master
     docker:
       # The lightest-weight image Circle has
       - image: cimg/base:2020.01
@@ -15,11 +13,13 @@ jobs:
       # - Without the '--no-pager' flag, Git will print "WARNING: Terminal is not fully functional" and not display any output
       # - Circle has no way of getting the PR base branch, so we have to hardcode the base branch :( See: https://ideas.circleci.com/cloud-feature-requests/p/provide-env-variable-for-branch-name-targeted-by-pull-request
       # - The --exit-code flag to git-diff returns 0 on no changes, 1 on changes
-      # - We have to use 'origin/${BASE_BRANCH}' rather than '${BASE_BRANCH}' because Circle does a shallow checkout, and '${BASE_BRANCH}' gets set to something weird and wrong that makes the check buggy
-      - run: "! git --no-pager diff --exit-code origin/${BASE_BRANCH}...HEAD CHANGELOG.md"
+      # - We have to use 'origin/master' rather than 'master' because Circle does a shallow checkout, and 'master' gets set to something weird and wrong that makes the check buggy
+      - run: "! git --no-pager diff --exit-code origin/master...HEAD CHANGELOG.md"
 
 workflows:
   build:
     jobs:
-      # If we start using too many CircleCI credits, we can exclude develop and master from validation
-      - validate
+      - validate:
+          filters:
+            branches:
+              ignore: master
