@@ -1,5 +1,6 @@
 (in order of most recent to least recent)
 
+* Don't run the validation job on `master` branch (should already have had it before PR is merged)
 * Added changelog check to CircleCI
 * Added instructions for running in CI
 * Refactored entire onboarding flow to make it much, much simpler to quickstart!
