@@ -2,7 +2,8 @@ Quickstart
 ==========
 
 ### Prerequisites
-Ensure you have [Docker engine](https://docs.docker.com/get-started/) >= 2.3.0.0 (we've seen 2.0.0.0 behaving erratically)
+* A [Kurtosis user account](https://www.kurtosistech.com/sign-up)
+* A [Docker engine](https://docs.docker.com/get-started/) with version >= 2.3.0.0 (we've seen 2.0.0.0 behaving erratically) 
 
 ### Bootstrap your testsuite
 1. Visit [the list of supported language clients](https://github.com/kurtosis-tech/kurtosis-docs/blob/master/supported-languages.md)
