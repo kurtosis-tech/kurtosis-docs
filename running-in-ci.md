@@ -21,18 +21,16 @@ Client Credentials & Untrusted PRs
 ----------------------------------
 Because the client credentials are secrets, they cannot be made available to builds of untrusted PRs (i.e. PRs from untrusted contributors, often submitted from forks) else there's a risk that the untrusted PR maliciously prints them. This means that CI builds for untrusted PRs will fail. This is a tough problem for the entire the open-source community, but a decent workaround exists for repos on Github:
 
-1. Add nwtgck's "comment-run" Github Action to your repo [with these instructions](https://github.com/nwtgck/actions-comment-run#introduce-this-action) 
-    * **NOTE 1:** Make sure to use the latest version, as these instructions hardcoded `v1.1` which is no longer the latest 
-    * **NOTE 2:** As of 2020-10-21, [Github Actions seem to have a bug with assigning the OWNER role](https://github.community/t/github-actions-have-me-as-contributor-role-when-im-owner/138933) so you may need to fiddle with the `allowed-associations` section
-1. Copy-paste [the "PR merge preview" comment-action](https://github.com/nwtgck/actions-comment-run#pr-merge-preview)
-1. [Store it as one of your "Saved Replies" in Github](https://github.com/nwtgck/actions-comment-run#tips-saved-replies)
+1. Add the `actions-comment-run` Github Action to your repo [with these instructions](https://github.com/mieubrisse/actions-comment-run/tree/allowed-users-for-orgs#introduce-this-action). **WARNING:** If your repo is inside an organization, you should add the usernames of your repo administrators to the `allowed-users` config key. This is due to a bug in Github where "owners" of repos inside an organization don't actually get the Github `OWNER` role (see [this ticket](https://github.community/t/github-actions-have-me-as-contributor-role-when-im-owner/138933/9) for details).
+1. Copy [the codeblock inside the "PR merge preview" header](https://github.com/mieubrisse/actions-comment-run/tree/allowed-users-for-orgs#pr-merge-preview)
+1. [Store it as one of your "Saved Replies" in Github](https://github.com/mieubrisse/actions-comment-run/tree/allowed-users-for-orgs#tips-saved-replies)
 
-Then, whenever an untrusted PR is submitted to your repo:
+Then, whenever an untrusted PR is submitted to your repo, a repo owner should:
 
 1. Review the code carefully to make sure no secrets are being printed
-1. Post a comment with your saved reply, which will trigger the Github Actions bot to create a copy of the untrusted PR on the repo under your name; because you're a trusted contributor, secrets will be passed to CI and the build will proceed
-1. The outside contributor will be able to see the build and, if necessary, make changes
-1. Review the contributor's new changes for any secret-leaking
-1. Re-post the same saved reply to push their latest code to your copy branch and re-run CI
+1. Post a comment with the saved reply from above, which will trigger the Github Actions bot to create a copy of the changes on a new branch with a name like `actions-merge-preview/ORIGINAL-BRANCH-NAME`
+1. Open a PR with this `actions-merge-preview/...` branch; because the repo owner is trusted, secrets will be passed to CI and the CI build will proceed
+1. Inform the third-party contributor about the new PR so they can see the build status and make any necessary changes
+1. If the third-party contributor pushes any more changes, re-review them for any secret-leaking and re-post the same saved reply to update the trusted PR
 
 This allows you to require untrusted code to pass a review before it runs (thereby securing your secrets) while still preserving the safety of CI.
