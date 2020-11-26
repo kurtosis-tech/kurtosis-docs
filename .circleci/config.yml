@@ -16,9 +16,11 @@ jobs:
       # - We have to use 'origin/master' rather than 'master' because Circle does a shallow checkout, and 'master' gets set to something weird and wrong that makes the check buggy
       - run: "! git --no-pager diff --exit-code origin/master...HEAD CHANGELOG.md"
 
-      - run: |
-          sudo npm install -g markdown-link-checker
-          bash .circleci/check-markdown-links.sh
+      - run:
+          name: Check links in Markdown docs
+          command: |
+            sudo npm install -g markdown-link-check
+            bash .circleci/check-markdown-links.sh
 
 workflows:
   build:
