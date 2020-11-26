@@ -1,5 +1,6 @@
 ### TBD
 * Refactor the quickstart to contain step-by-step instructions to writing a testsuite (mostly ported from Kurtosis v0.1)
+* Add CI to check links in Markdown documents
 
 ### Pre-Versioning
 * Update the "Running in CI" instructions to point users to the `mieubrisse/actions-comment-run@allowed-users-for-orgs` fork, which has the necessary fix for running untrusted PRs with org-owned repos
