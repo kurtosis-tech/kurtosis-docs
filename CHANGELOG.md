@@ -1,7 +1,7 @@
 ### TBD
 * Refactor the quickstart to contain step-by-step instructions to writing a testsuite (mostly ported from Kurtosis v0.1)
 
-### Pre-Versioning
+### 0.1.0
 * Update the "Running in CI" instructions to point users to the `mieubrisse/actions-comment-run@allowed-users-for-orgs` fork, which has the necessary fix for running untrusted PRs with org-owned repos
 * Replace list of initializer parameters with a pointer to use the `SHOW_HELP` initializer flag
 * Update quickstart prerequisites with a Kurtosis login
