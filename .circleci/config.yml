@@ -3,8 +3,8 @@ version: 2.1
 jobs:
   validate:
     docker:
-      # The lightest-weight image Circle has
-      - image: cimg/base:2020.01
+      # Needed for `npm install` down below
+      - image: cimg/node:15.3.0
     resource_class: small
     steps:
       - checkout
@@ -15,6 +15,12 @@ jobs:
       # - The --exit-code flag to git-diff returns 0 on no changes, 1 on changes
       # - We have to use 'origin/master' rather than 'master' because Circle does a shallow checkout, and 'master' gets set to something weird and wrong that makes the check buggy
       - run: "! git --no-pager diff --exit-code origin/master...HEAD CHANGELOG.md"
+
+      - run:
+          name: Check links in Markdown docs
+          command: |
+            sudo npm install -g markdown-link-check
+            bash .circleci/check-markdown-links.sh
 
 workflows:
   build:
