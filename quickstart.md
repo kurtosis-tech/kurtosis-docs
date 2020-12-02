@@ -34,7 +34,7 @@ INFO[2020-10-15T18:43:27Z] - fixedSizeExampleTest: PASSED
 
 (This output is from the Kurtosis Go client; other languages might be slightly different)
 
-If you don't see success messages, check out [the guide for debugging failed tests](./debugging-failed-tests.md) which contains solutions to common issues.
+If you don't see success messages, check out [the guide for debugging failed tests](./debugging-failed-tests.md) which contains solutions to common issues. If this still doesn't resolve your issue, you can ask for help in [the Kurtosis Discord server](https://discord.gg/6Jjp9c89z9).
 
 Customize your testsuite
 ------------------------
@@ -91,3 +91,4 @@ Now that you have your own custom testsuite running, you can:
 * Visit [the Kurtosis testsuite docs](./testsuite-details.md) to learn more about what's in a testsuite and how to customize it to your needs
 * Check out [the CI documentation](./running-in-ci.md) to learn how to run Kurtosis in your CI environment
 * Take a step back and visit [the Kurtosis architecture docs](./architecture.md) to get the big picture
+* Pop into [the Kurtosis Discord](https://discord.gg/6Jjp9c89z9) to join the community!
