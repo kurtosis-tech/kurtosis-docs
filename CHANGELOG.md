@@ -1,4 +1,4 @@
-### TBD
+### 0.1.2
 * Add Discord link to all the tutorial pages
 
 ### 0.1.1
