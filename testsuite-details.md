@@ -97,3 +97,4 @@ Now that you understand more about the internals of a testsuite, you can:
 * Head over to [the quickstart instructions](./quickstart.md) to bootstrap your own testsuite (if you haven't already)
 * Visit [the architecture docs](./architecture.md) to learn more about the Kurtosis platform at a high level.
 * Check out [the instructions for running in CI](./running-in-ci.md) to see what's necessary to get Kurtosis running in your CI environment
+* Pop into [the Kurtosis Discord](https://discord.gg/6Jjp9c89z9) to join the community!
