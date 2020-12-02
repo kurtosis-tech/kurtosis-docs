@@ -1,3 +1,6 @@
+### TBD
+* Add Discord link to all the tutorial pages
+
 ### 0.1.1
 * Refactor the quickstart to contain step-by-step instructions to writing a testsuite (mostly ported from Kurtosis v0.1)
 * Add CI to check links in Markdown documents

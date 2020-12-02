@@ -11,6 +11,8 @@ You have two paths you can start with:
 * For those who like to jump in and see things running, head over to [the quickstart instructions](./quickstart.md)
 * For those who prefer to start at a high level, check out [the Kurtosis architecture docs](./architecture.md)
 
+For Q&A, head over to the [Kurtosis Discord](https://discord.gg/6Jjp9c89z9) server.
+
 Additional Documentation
 ------------------------
 
