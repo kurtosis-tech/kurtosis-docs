@@ -6,7 +6,7 @@ Every testsuite is simply a Docker image that runs a CLI that executes a test. T
 
 ![](./images/testsuite-architecture.png)
 
-We recommend you follow along in code as you read this document. Each client library contains an example implementation of the components as well as the ability to bootstrap a new testsuite from the example implementation. The rest of the guide will assume you've bootstrapped a new testsuite, so if you haven't done so already we recommend following the [the quickstart instructions](./quickstart.md) to bootstrap now.
+Each client library contains an example implementation of the components as well as the ability to bootstrap a new testsuite from the example implementation. The rest of the guide will assume you've bootstrapped a new testsuite, so if you haven't done so already we recommend following the [the quickstart instructions](./quickstart.md) to bootstrap now.
 
 **NOTES:**
 * Kurtosis provides clients for writing testsuites in multiple languages. While the languages differ, the objects and function calls are named the same. For consistency, this guide will avoid language-specific idioms and will use pseudocode with a generic `Object.function` notation.
@@ -47,30 +47,18 @@ All this information is packaged inside the `Test` object, so a `TestSuite` is r
 ### Test
 A `Test` object packages the logic for executing an individual test with a definition of the network the test will execute against. It has three main components:
 
-* A `getNetworkLoader` method for retrieving the `NetworkLoader` that defines the initial state of the testnet
+* A `setup` method for creating the testnet that the test will run against
 * A `run` function that takes in a `TestContext` for making assertions and a `Network` object that serves as a handle to interacting with the testnet
 * Timeouts defining when the test should be marked as failed due to running for too long
 
 ### Network
-A `Network` object is an entirely user-defined representation of a running testnet wrapped around a `ServiceNetwork`. Its purpose is to provide a layer of abstraction so users can make test-writing as simple as possible. For example, if all your tests want a five-node network, you could write a `FiveNodeNetwork` object that implements the `Network` interface and give it functions like `getNodeOne`, `getNodeTwo`, etc. 
+A `Network` object is an optional, entirely user-defined representation of a running testnet wrapped around a `NetworkContext`. Its purpose is to provide a layer of abstraction so users can make test-writing as simple as possible. For example, if all your tests want a five-node network, you could write a `FiveNodeNetwork` object that implements the `Network` interface and give it functions like `getNodeOne`, `getNodeTwo`, etc. 
 
-### NetworkLoader
-A `NetworkLoader` object is an object used for initializing `Network` instances before a test's execution logic starts running. When implementing a `NetworkLoader`, you should:
-
-1. Use the `configureNetwork` function to give IDs to a set of service configurations which are the templates from which all service instances in the network will be created (requires defining `ServiceInitializerCore` and `ServiceAvailabilityCheckerCore` instances for each configuration)
-2. Use the configuration IDs you defined in `configureNetwork` to instantiate several new nodes in `initializeNetwork`
-3. Wrap the `ServiceNetwork` object that you initialized in `configureNetwork` with your custom `Network` object in the `wrapNetwork` function
-
-This resulting `Network` object is what `Test.run` will receive.
-
-### ServiceInitializerCore
-A `ServiceInitializerCore` provides specific information about how to launch the actual Docker container underlying a given `Service`, for use when defining service configurations in the `NetworkLoader`. This object is very well-documented in code, so we recommend users read the details in their client library of choice.
+### DockerContainerInitializer
+A `DockerContainerInitializer` provides specific information about how to launch the actual Docker container underlying a given `Service`, for use when defining service configurations in the `NetworkLoader`. This object is very well-documented in code, so we recommend users read the details in their client library of choice.
 
 ### Service
-Just like the `Network` is an entirely user-defined abstraction of a running testnet to make test-writing easier, so too is the `Service` an entirely user-defined abstraction of a running service. For example, an `ElasticsearchService` implementation might have a `getClient` function that returns an ES client so a test can easily interact with an Elasticsearch service.
-
-### ServiceAvailabilityCheckerCore
-To avoid spurious failures, Kurtosis won't start running a test unless its target testnet is running and ready. A `ServiceAvailabilityCheckerCore` implementation tells Kurtosis how to judge whether the services in a testnet are available, so that the testnet won't be marked as ready until every service is.
+The `Service` interface represents a service running in a Docker container. For example, an `ElasticsearchService` implementation might have a `getClient` function that returns an ES client so a test can easily interact with an Elasticsearch service.
 
 Running A Testsuite
 -------------------
