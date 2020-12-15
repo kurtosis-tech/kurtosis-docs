@@ -1,3 +1,6 @@
+### 0.1.4
+* Add link to website, with horizontable logo
+
 ### 0.1.3
 * Update docs to match the service simplification refactor from kurtosis-go 1.3.0
 
