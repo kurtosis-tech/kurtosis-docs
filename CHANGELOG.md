@@ -1,4 +1,4 @@
-### TBD
+### 0.1.3
 * Update docs to match the service simplification refactor from kurtosis-go 1.3.0
 
 ### 0.1.2
