@@ -1,4 +1,4 @@
-### TBD
+### 0.1.4
 * Add link to website, with horizontable logo
 
 ### 0.1.3
