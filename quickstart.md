@@ -82,6 +82,10 @@ You'll notice that one of the flags that the example entrypoint CLI above receiv
 
 These environment variables in the Dockerfile might seem like magic, but they're just set by Kurtosis when it launches the Docker image containing your testsuite. You'll need to tell Kurtosis what values to use for your custom flags, which can be done at time of launch with the `CUSTOM_ENV_VARS_JSON` parameter to the Kurtosis initializer. For example, if your Dockerfile uses the `MY_CUSTOM_VAR` environment variable then you might call `build_and_run.sh` with `--env CUSTOM_ENV_VARS_JSON="{\"MY_CUSTOM_ENV_VAR\":5}"`.
 
+Debugging your testsuite
+------------------------
+You can attach to your testsuite with a debugger to help find issues. To use, you'll need update the command in your testsuite's `Dockerfile` and tell your debugger to listen on the port specified by the magic `DEBUGGER_PORT` environment variable, which will be supplied to your testsuite container by Kurtosis. When you run your testsuite, each testsuite's debugger port will get bound to an IP:port combo on your local machine (which will be printed in the logs). To determine whether the debugger command ought to be run or not, you can use a custom Docker environment variable (per the "Custom Parameterization" section above).
+
 Next steps
 ----------
 Now that you have your own custom testsuite running, you can:

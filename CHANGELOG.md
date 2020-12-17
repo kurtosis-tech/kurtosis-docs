@@ -1,3 +1,6 @@
+### TBD
+* Add docs to explain how to debug a testsuite
+
 ### 0.1.4
 * Add link to website, with horizontable logo
 
