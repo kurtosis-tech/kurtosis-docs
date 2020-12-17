@@ -1,3 +1,6 @@
+### TBD
+* Update the quickstart docs with the new microservice examples in kurtosis-go 1.4.0
+
 ### 0.1.4
 * Add link to website, with horizontable logo
 
