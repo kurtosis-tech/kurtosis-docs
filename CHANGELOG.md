@@ -1,3 +1,6 @@
+### TBD
+* Add deprecation notice, in favor of Github Pages-hosted docs from kurtosis-core itself
+
 ### 0.1.5
 * Update the quickstart docs with the new microservice examples in kurtosis-go 1.4.0
 
